@@ -1,4 +1,4 @@
-package com.hefshine.Java9OnWards;
+package com.hefshine.java9OnWards;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.hefshine.Java9OnWards;
+package com.hefshine.java9OnWards;
 
 public record EmployeeRecord(int id, String name, String department) {
 
