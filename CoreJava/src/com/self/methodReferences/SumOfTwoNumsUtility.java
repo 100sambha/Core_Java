@@ -1,4 +1,4 @@
-package com.self.MethodReferences;
+package com.self.methodReferences;
 
 public class SumOfTwoNumsUtility {
 	public int sumOfTwoElement(int n1, int n2) {

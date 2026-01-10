@@ -11,5 +11,8 @@ public class MaxFind {
 				
 		int max = nums.stream().sorted(Comparator.reverseOrder()).findFirst().get();
 		System.out.println(max);
+		
+		max = nums.stream().sorted(Comparator.comparing(Integer::intValue).reversed()).findFirst().get();
+		System.out.println(max);
 	}
 }

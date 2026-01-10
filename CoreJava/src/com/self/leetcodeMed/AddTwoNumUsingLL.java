@@ -1,4 +1,4 @@
-package com.self.LeetcodeMed;
+package com.self.leetcodeMed;
 
 public class AddTwoNumUsingLL {
 	

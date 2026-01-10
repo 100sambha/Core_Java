@@ -1,4 +1,4 @@
-package com.self.MethodReferences;
+package com.self.methodReferences;
 
 public class SquareOfElement {
 	public static void main(String[] args) {

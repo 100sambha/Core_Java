@@ -1,4 +1,4 @@
-package com.self.LeetcodeEasy;
+package com.self.leetcodeEasy;
 
 public class Pallindrome {
 	public static void main(String[] args) {
