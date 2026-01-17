@@ -15,6 +15,11 @@ public class CommonCharacter {
 		List<Character> strs2 = str.chars().distinct().mapToObj(i->(char)i).collect(Collectors.toList());
 		System.out.println(strs2);
 		
+		String[] arr1 = "hello".split("");
+		String[] arr2 = "hi".split("");
+		System.out.println(Arrays.toString(Arrays.stream(arr1).filter(i->Arrays.stream(arr2).anyMatch(j->i.equals(j))).distinct().toArray()));
+		
+		
 		
 	}
 }
