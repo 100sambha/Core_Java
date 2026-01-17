@@ -2,6 +2,7 @@ package com.aop;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
@@ -22,10 +23,25 @@ public class AopApp {
 		emp.studySomething();
 		System.out.println("-----------------");
 		emp.studySomething("Ram");
-		
+		System.out.println("-----------------");		
+		std.calcy();
 		
 		context.close();
 	}
+}
+
+
+class MyException extends RuntimeException{
+	private static final long serialVersionUID = -1597272905368200517L;
+
+	public MyException() {
+		super();
+	}
+
+	public MyException(String message) {
+		super(message);
+	}
+	
 }
 
 
@@ -33,6 +49,12 @@ public class AopApp {
 @Aspect
 @Component
 class Greet {
+	
+	@AfterThrowing(pointcut="execution(public void calcy())", throwing = "ex")
+	public void exec(MyException ex) {
+		System.out.println("Exception Thrown - "+ex.getMessage());
+	}
+	
 
 	@Before("execution(public * study*(..))")
 	public void welcome(JoinPoint j) {
@@ -67,6 +89,10 @@ class Student {
 	
 	public void study() {
 		System.out.println("Student Studying");
+	}
+	
+	public void calcy() {
+		throw new MyException("Invalid input");
 	}
 }
 
