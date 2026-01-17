@@ -13,7 +13,11 @@ public class AopApp {
 	public static void main(String[] args) {
 		AbstractApplicationContext context = new AnnotationConfigApplicationContext(AopAppConfig.class);
 		Student std = context.getBean("student", Student.class);
+		Employee emp = context.getBean("employee", Employee.class);
 		std.study();
+		emp.studySomething();		
+		
+		
 		context.close();
 	}
 }
@@ -24,7 +28,7 @@ public class AopApp {
 @Component
 class Greet {
 	
-	@Before("execution(public void study())")
+	@Before("execution(public * study*())")
 	public void morning() {
 		System.out.println("Good Morning");
 	}
@@ -36,9 +40,16 @@ class Greet {
 class Student {
 	
 	public void study() {
-		System.out.println("Study started");
+		System.out.println("Student Studying");
 	}
-	
+}
+
+@Component
+class Employee {
+	public int studySomething() {
+		System.out.println("Employee Studying");
+		return 0;
+	}
 }
 
 
