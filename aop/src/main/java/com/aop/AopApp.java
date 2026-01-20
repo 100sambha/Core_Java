@@ -1,8 +1,10 @@
 package com.aop;
 
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.AfterThrowing;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
@@ -24,7 +26,8 @@ public class AopApp {
 		System.out.println("-----------------");
 		emp.studySomething("Ram");
 		System.out.println("-----------------");		
-		std.calcy();
+		int res = std.calcy(100,50);
+		System.out.println("Result :"+res);
 		
 		context.close();
 	}
@@ -41,7 +44,6 @@ class MyException extends RuntimeException{
 	public MyException(String message) {
 		super(message);
 	}
-	
 }
 
 
@@ -49,14 +51,32 @@ class MyException extends RuntimeException{
 @Aspect
 @Component
 class Greet {
+	@Around("execution(public int calcy(int, int))")
+	public Object calcyAdvice(ProceedingJoinPoint jp) {
+		Object[] objArgs = jp.getArgs();
+		int n1 = Integer.parseInt(objArgs[0]+"");
+		int n2 = Integer.parseInt(objArgs[1]+"");
+		objArgs[0] = 10;
+		objArgs[1] = 0;
+		Object res = null;
+		try {
+			res = jp.proceed();		//takes by default input
+//			res = jp.proceed(objArgs);
+		} catch (Throwable e) {
+			e.getMessage();
+		}
+		return res;
+	}
 	
-	@AfterThrowing(pointcut="execution(public void calcy())", throwing = "ex")
+	@AfterThrowing(pointcut="execution(public int calcy(int, int))", throwing = "ex")
 	public void exec(MyException ex) {
 		System.out.println("Exception Thrown - "+ex.getMessage());
 	}
 	
+	
+	
 
-	@Before("execution(public * study*(..))")
+	@Before("execution(public * study*(..)) || execution(public int calcy(int, int))")
 	public void welcome(JoinPoint j) {
 		System.out.println("Welcome "+(j.getArgs().length>0?j.getArgs()[0]:""));
 	}
@@ -91,8 +111,14 @@ class Student {
 		System.out.println("Student Studying");
 	}
 	
-	public void calcy() {
-		throw new MyException("Invalid input");
+	public int calcy(int n1, int n2) {
+		System.out.println("N1-"+n1+", N2-"+n2);
+		try {
+			int res = n1/n2;
+			return res;
+		} catch (Exception e) {
+			throw new MyException("Invalid input");
+		}
 	}
 }
 
